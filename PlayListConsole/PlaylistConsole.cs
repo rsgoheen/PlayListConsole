@@ -55,10 +55,15 @@ namespace PlaylistConsole
 
           var addAllsongs = Playlist.SongsInPlaylist(@"F:\Music\Zune\Playlists\Always Add.zpl");
 
-          var songs = new PlaylistGenerator().GeneratePlayList(
-              songProvider, 
+          var songs = new ShuffleFirstPlaylistGenerator().GeneratePlayList(
+              songProvider,
               2400,
               addAllsongs);
+
+         //var songs = new PlaylistGenerator().GeneratePlayList(
+         //     songProvider, 
+         //     2400,
+         //     addAllsongs);
 
          //var plg = new PlaylistGenerator(Path.Combine(musicDirectory, songFile)).GeneratePlaylist();
          Playlist.SaveShellPlaylist(songs);

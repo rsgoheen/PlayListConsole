@@ -58,8 +58,7 @@ namespace PlayList.Util
             TotalSongCount = maximumSongCount;
             AlwaysAddSongs = alwaysAdd;
 
-            throw new NotImplementedException();
-
+            return GeneratePlaylist();
         }
 
         public IEnumerable<Song> GeneratePlaylist()
@@ -135,7 +134,5 @@ namespace PlayList.Util
         {
             return Playlist.SongsInPlaylist(AlwaysAddPlaylist);
         }
-
-        //private static readonly ILog log = LogManager.GetLogger(typeof(PlaylistGenerator));
     }
 }

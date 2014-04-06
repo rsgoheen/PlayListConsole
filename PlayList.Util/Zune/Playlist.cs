@@ -21,18 +21,15 @@ namespace PlayList.Util.Zune
             _playlistTitle = playlistTitle;
 
             var assembly = Assembly.GetExecutingAssembly();
-            var playlistFileName = assembly
-                .GetManifestResourceNames()
+            var playlistFileName = assembly.GetManifestResourceNames()
                 .First(x => x.EndsWith("playlist.zpl"));
 
             using (var stream = assembly.GetManifestResourceStream(playlistFileName))
-            {
                 _playlistXDocument = XDocument.Load(stream);
-            }
 
             var titleTag = _playlistXDocument.Descendants("title").First();
             titleTag.Value = _playlistTitle;
-
+           FileName = playlistTitle + ".zpl";
         }
 
         public Playlist(XDocument xDocument, string fileName)
@@ -109,17 +106,18 @@ namespace PlayList.Util.Zune
 
         public XDocument XDocument { get { return _playlistXDocument; } }
 
-        public static void SaveShellPlaylist(IEnumerable<Song> newSongs)
+        public static void SaveShellPlaylist(IEnumerable<Song> newSongs, string filePath = @"F:\Music\Zune\Playlists")
         {
-            const string playlistLocation = @"F:\Music\Zune\Playlists";
+           new Playlist("Shell One").UpdatePlaylistXDoc(newSongs).Save(filePath);
+        }
 
-            var shellPlayList =
-                Directory.EnumerateFiles(playlistLocation, "*.zpl")
-                .Where(x => (x.Contains("Shell One")))
-                .Select(file => new Playlist(XDocument.Load(file), file))
-                .First();
+        public Playlist Save(string filePath)
+        {
+           if (!Directory.Exists(filePath))
+              filePath = "";
 
-            shellPlayList.UpdatePlaylistXDoc(newSongs).Save();
+           XDocument.Save(Path.Combine(filePath, FileName));
+           return this;
         }
 
         public override int GetHashCode()
@@ -138,17 +136,6 @@ namespace PlayList.Util.Zune
                 return false;
 
             return Equals(right as Playlist);
-        }
-
-        public Playlist Save()
-        {
-            XDocument.Save(FileName);
-            return this;
-        }
-
-        public void Save(string fileName)
-        {
-            _playlistXDocument.Save(FileName);
         }
 
         public bool Equals(Playlist other)

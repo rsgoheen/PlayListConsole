@@ -75,7 +75,7 @@ namespace PlayList.Util
 
                 current++;
 
-                if (! activeCriteria.Any())
+                if (!activeCriteria.Any(x => x.IsActive))
                     break;
                 if (pivotList.FilteredItemCount >= MaximumSongCount)
                     return;
