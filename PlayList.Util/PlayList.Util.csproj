@@ -58,7 +58,6 @@
     <Compile Include="ListExtension.cs" />
     <Compile Include="MusicFileReader.cs" />
     <Compile Include="PivotList.cs" />
-    <Compile Include="PlaylistGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShuffleFirstPlaylistGenerator.cs" />
     <Compile Include="Song.cs" />
