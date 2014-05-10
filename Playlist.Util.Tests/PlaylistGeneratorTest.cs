@@ -23,7 +23,7 @@ namespace Playlist.Util.Tests
 
             all.AddRange(alwaysAdd);
 
-            var songs = new ShuffleFirstPlaylistGenerator(new List<ICriteriaCounter<Song>>()).GeneratePlayList(all, alwaysAdd.Count, alwaysAdd);
+            var songs = new PlaylistGenerator(new List<ICriteriaCounter<Song>>()).GeneratePlayList(all, alwaysAdd.Count, alwaysAdd);
             CollectionAssert.AreEquivalent(songs.ToArray(), alwaysAdd);
         }
 
@@ -41,7 +41,7 @@ namespace Playlist.Util.Tests
 
             var criteria = new List<ICriteriaCounter<Song>>() { new CriteriaCounter(song => song.Category == firstCat, firstCriteria.Count() + 100) };
 
-            var songs = new ShuffleFirstPlaylistGenerator(criteria).GeneratePlayList(all, firstCriteria.Count, new List<Song>());
+            var songs = new PlaylistGenerator(criteria).GeneratePlayList(all, firstCriteria.Count, new List<Song>());
 
             CollectionAssert.AreEquivalent(songs.ToArray(), firstCriteria);
         }
@@ -76,7 +76,7 @@ namespace Playlist.Util.Tests
                 new CriteriaCounter(song => song.Category == thirdCat, thirdCriteria.Count()),
             };
 
-            var songs = new ShuffleFirstPlaylistGenerator(criteria).GeneratePlayList(all, criteriaList.Count, new List<Song>());
+            var songs = new PlaylistGenerator(criteria).GeneratePlayList(all, criteriaList.Count, new List<Song>());
 
             CollectionAssert.AreEqual(
                 songs.OrderBy(x => x.GetHashCode()).ToArray(), 
@@ -88,7 +88,7 @@ namespace Playlist.Util.Tests
         public void FillsInWithSongsWhenNotEnoughSpecified()
         {
             var all = new List<Song>(GetRandomSongs(75000));
-            var songs = new ShuffleFirstPlaylistGenerator(new List<ICriteriaCounter<Song>>())
+            var songs = new PlaylistGenerator(new List<ICriteriaCounter<Song>>())
                 .GeneratePlayList(all, 100, all.Take(50));
 
             Assert.AreEqual(songs.Count(), 100);
