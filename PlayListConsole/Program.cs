@@ -12,6 +12,7 @@ namespace PlaylistConsole
     {
         /* TODO:
          * - Different playlists for different genres
+         * - Statistics and logging
          * - UI
          *  - Visualize playlist better
          *  - Display music library

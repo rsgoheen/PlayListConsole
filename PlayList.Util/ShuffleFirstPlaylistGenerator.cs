@@ -99,11 +99,11 @@ namespace PlayList.Util
             return new List<ICriteriaCounter<Song>>()
             {
                 new CriteriaCounter(x => x.Rating.StartsWith("4"), 300),
-                new CriteriaCounter(x => x.Genre.ContainsCaseInsensitive("Classical"), 250),
-                new CriteriaCounter(x => x.Genre.ContainsCaseInsensitive("Jazz"), 250),
-                new CriteriaCounter(x => x.Genre.ContainsCaseInsensitive("World"), 200),
-                new CriteriaCounter(x => x.Genre.ContainsCaseInsensitive("Country"), 100),
-                new CriteriaCounter(x => x.Genre.ContainsCaseInsensitive("Hip Hop"), 100),
+                new CriteriaCounter(x => x.PrimaryGenre.ContainsCaseInsensitive("Classical"), 250),
+                new CriteriaCounter(x => x.PrimaryGenre.ContainsCaseInsensitive("Jazz"), 250),
+                new CriteriaCounter(x => x.PrimaryGenre.ContainsCaseInsensitive("World"), 200),
+                new CriteriaCounter(x => x.PrimaryGenre.ContainsCaseInsensitive("Country"), 100),
+                new CriteriaCounter(x => x.PrimaryGenre.ContainsCaseInsensitive("Hip Hop"), 100),
             };
         }
     }
