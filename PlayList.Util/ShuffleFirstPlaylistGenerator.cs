@@ -18,11 +18,6 @@ namespace PlayList.Util
             _criteria = new List<ICriteriaCounter<Song>>(criteria);
         }
 
-        public IEnumerable<Song> GeneratePlaylist()
-        {
-            throw new System.NotImplementedException();
-        }
-
         public IEnumerable<Song> GeneratePlayList(IEnumerable<Song> songProvider, int maximumSongCount, IEnumerable<Song> alwaysAdd)
         {
             var _random = new Random();
