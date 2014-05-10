@@ -57,9 +57,9 @@
     <Compile Include="IPlaylistGenerator.cs" />
     <Compile Include="ListExtension.cs" />
     <Compile Include="MusicFileReader.cs" />
-    <Compile Include="PivotList.cs" />
+    <Compile Include="RanomizedSubset.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ShuffleFirstPlaylistGenerator.cs" />
+    <Compile Include="PlaylistGenerator.cs" />
     <Compile Include="Song.cs" />
     <Compile Include="Zune\Playlist.cs" />
   </ItemGroup>

@@ -12,7 +12,7 @@ namespace Playlist.Util.Tests
         [TestCategory("Unit")]
         public void TestMoveItem()
         {
-            var list = new PivotList<int>(Enumerable.Range(1, 10));
+            var list = new RanomizedSubset<int>(Enumerable.Range(1, 10));
             Assert.AreEqual(list.GetFilteredSet().Count(), 0);
 
             var item = list[4];
