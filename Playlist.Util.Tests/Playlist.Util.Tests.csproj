@@ -52,7 +52,6 @@
   <ItemGroup>
     <Compile Include="ListExtensionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RandomizedSubsetTests.cs" />
     <Compile Include="PlaylistGeneratorTest.cs" />
     <Compile Include="UnitTest1.cs" />
   </ItemGroup>

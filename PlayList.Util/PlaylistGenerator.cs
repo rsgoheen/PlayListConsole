@@ -26,66 +26,53 @@ namespace PlayList.Util
       {
          MaximumSongCount = maximumSongCount;
 
-         var list = new List<Song>(songProvider);
-         var ranomizedSubset = new RanomizedSubset<Song>(list);
-
          _songList = new List<Song>(songProvider);
 
-         AddAlwaysAddSongs(ranomizedSubset, alwaysAdd);
-         AddSongsBasedOnCriteria(ranomizedSubset, _criteria);
-         FillInRemainingSongs(ranomizedSubset);
+         AddAlwaysAddSongs(alwaysAdd);
+         AddSongsBasedOnCriteria(_criteria);
+         FillInRemainingSongs();
 
-         return ranomizedSubset.GetFilteredSet();
+         return _songList.SubsetTo(Pivot - 1);
       }
 
-      private void FillInRemainingSongs(RanomizedSubset<Song> ranomizedSubset)
+      private void FillInRemainingSongs()
       {
-         while (ranomizedSubset.FilteredItemCount < MaximumSongCount)
-         {
-            ranomizedSubset.Move(ranomizedSubset.Pivot);
-         }
-
+         while (Pivot < MaximumSongCount)
+            Pivot++;
       }
 
-      private void AddSongsBasedOnCriteria(RanomizedSubset<Song> ranomizedSubset, IEnumerable<ICriteriaCounter<Song>> criteria)
+      private void AddSongsBasedOnCriteria(IEnumerable<ICriteriaCounter<Song>> criteria)
       {
          var activeCriteria = criteria.Where(x => x.IsActive).ToArray();
-         var current = ranomizedSubset.Pivot;
 
-         while (current < ranomizedSubset.Count)
+         for (var current = Pivot; current < _songList.Count; current++)
          {
-            // ReSharper disable ReplaceWithSingleCallToFirstOrDefault
-            var matchingFilter =
-                 activeCriteria
-                 .Where(x => x.IsActive)
-                 .Where(x => x.Criteria(ranomizedSubset[current]))
-                 .FirstOrDefault();
-            // ReSharper restore ReplaceWithSingleCallToFirstOrDefault
+            var matchingFilter = activeCriteria
+               .Where(x => x.IsActive)
+               .FirstOrDefault(x => x.Criteria(_songList[current]));
 
             if (matchingFilter != null)
             {
-               ranomizedSubset.Move(current);
+               _songList.Swap(current, ++Pivot);
                matchingFilter.Decrement();
             }
 
-            current++;
-
             if (!activeCriteria.Any(x => x.IsActive))
                break;
-            if (ranomizedSubset.FilteredItemCount >= MaximumSongCount)
-               return;
          }
+
       }
 
-      private void AddAlwaysAddSongs(RanomizedSubset<Song> ranomizedSubset, IEnumerable<Song> alwaysAdd)
+      private void AddAlwaysAddSongs(IEnumerable<Song> alwaysAdd)
       {
          var songHash = new HashSet<Song>(alwaysAdd);
-         for (var i = ranomizedSubset.Pivot; i < ranomizedSubset.Count; i++)
+         for (var i = Pivot; i < _songList.Count; i++)
          {
-            if (songHash.Contains(ranomizedSubset[i]))
-               ranomizedSubset.Move(i);
-            if (ranomizedSubset.FilteredItemCount >= MaximumSongCount)
-               return;
+            if (songHash.Contains(_songList[i]))
+               _songList.Swap(i, ++Pivot);
+
+            if (Pivot >= MaximumSongCount)
+               break;
          }
       }
 

@@ -25,5 +25,14 @@ namespace PlayList.Util
          list[first] = list[second];
          list[second] = temp;
       }
+
+      public static IEnumerable<T> SubsetTo<T>(this IList<T> list, int end)
+      {
+         if (end > list.Count - 1)
+            throw new ArgumentOutOfRangeException("end");
+
+         for (var i = 0; i <= end; i++)
+            yield return list[i];
+      }
    }
 }
