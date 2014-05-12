@@ -6,7 +6,7 @@ using PlayList.Util;
 namespace Playlist.Util.Tests
 {
     [TestClass]
-    public class PiviotListTests
+    public class RandomizedSubsetTests
     {
         [TestMethod]
         [TestCategory("Unit")]

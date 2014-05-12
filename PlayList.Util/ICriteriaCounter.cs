@@ -2,10 +2,11 @@
 
 namespace PlayList.Util
 {
-    public interface ICriteriaCounter<T>
-    {
-        Predicate<T> Criteria { get; }
-        void Decrement();
-        bool IsActive { get; }
-    }
+   public interface ICriteriaCounter<T>
+   {
+      Predicate<T> Criteria { get; }
+      void Decrement();
+      void Deactivate();
+      bool IsActive { get; }
+   }
 }

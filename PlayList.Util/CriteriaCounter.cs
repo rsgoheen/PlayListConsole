@@ -19,6 +19,11 @@ namespace PlayList.Util
             _count--;
         }
 
-        public bool IsActive { get { return _count > 0; } }
+       public void Deactivate()
+       {
+          _count = 0;
+       }
+
+       public bool IsActive { get { return _count > 0; } }
     }
 }

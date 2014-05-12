@@ -17,6 +17,7 @@ namespace PlayList.Util
          _list = new List<T>(set);
          Pivot = 0;
          _rnd = random ?? new Random();
+         _list.Shuffle(random ?? new Random());
       }
 
       public int Pivot { get; private set; }
@@ -50,42 +51,28 @@ namespace PlayList.Util
       public int Count { get { return _list.Count; } }
 
       /// <summary>
-      /// Move one item, randomly selected, into the filtered section
-      /// </summary>
-      /// <returns>true if there is an item that was moved, false if no item was moved</returns>
-      public bool MoveRandom()
-      {
-         if (!_list.Any())
-            return false;
-
-         if (Pivot == _list.Count() - 1)
-            return false;
-
-         Swap(_rnd.Next(Pivot, _list.Count),
-             Pivot);
-         Pivot++;
-
-         return true;
-      }
-
-      /// <summary>
-      /// Move a single item that matches the given criteria
+      /// Move a items that matches the given criteria
       /// </summary>
       /// <param name="criteria">A function that returns true for all items that
       /// should be considered for moving to the filtered section</param>
+      /// <param name="count">the number of items to move</param>
       /// <returns></returns>
-      public bool MoveRandom(Func<T, bool> criteria)
+      public int MoveRandom(Func<T, bool> criteria, int count = 1)
       {
-         var subSet = _list.Skip(Pivot).Where(criteria).ToArray();
+         var availableItemIds = _list
+                                 .Where(criteria)
+                                 .Select(item => _list.IndexOf(item))
+                                 .Where(position => position >= Pivot)
+                                 .Take(count)
+                                 .ToList();
 
-         var subSetLength = subSet.Count();
-         if (subSetLength == 0)
-            return false;
+         foreach (var id in availableItemIds)
+         {
+            Swap(id, Pivot);
+            Pivot++;
+         }
 
-         var itemId = _list.IndexOf(subSet.Skip(_rnd.Next(subSetLength)).First());
-         Swap(itemId, Pivot);
-         Pivot++;
-         return true;
+         return availableItemIds.Count;
       }
 
       /// <summary>
