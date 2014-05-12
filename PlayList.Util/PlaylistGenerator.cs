@@ -27,9 +27,10 @@ namespace PlayList.Util
          MaximumSongCount = maximumSongCount;
 
          _songList = new List<Song>(songProvider);
+         _songList.Shuffle();
 
-         AddAlwaysAddSongs(alwaysAdd);
          AddSongsBasedOnCriteria(_criteria);
+         AddAlwaysAddSongs(alwaysAdd);
          FillInRemainingSongs();
 
          return _songList.SubsetTo(Pivot - 1);

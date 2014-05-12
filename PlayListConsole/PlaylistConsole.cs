@@ -72,7 +72,7 @@ namespace PlaylistConsole
          Func<Song, bool> isClassical = x => string.Equals(x.PrimaryGenre, "Classical", StringComparison.OrdinalIgnoreCase);
 
          Playlist.SavePlaylist(
-            songs.Where(x => ! isJazz(x) && ! isClassical(x)).OrderBy(x => x.Artist),
+            songs.Where(x => ! isJazz(x) && ! isClassical(x)),
             "My Everything Else");
          Playlist.SavePlaylist(songs.Where(isClassical), 
             "My Classical");
